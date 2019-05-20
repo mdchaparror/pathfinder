@@ -6,18 +6,17 @@
 #include <iostream>
 #include <QFileDialog>
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     size=30;
     myModel = new QStandardItemModel(this);
     myModel->setRowCount(size);
     myModel->setColumnCount(size);
     ui->tableView->setModel(myModel);
-
     m_matriz = new int* [size];
     for (int i = 0; i < size; i++) {
         m_matriz[i] = new int[size];
@@ -83,15 +82,11 @@ void MainWindow::contextMenuRequest(QPoint pos)
 void MainWindow::printMatriz(){
     int row=myModel->rowCount();
     int col =myModel->columnCount();
-
     marcarMatriz();
     mostrarMatriz();
     std::cout<<"Matriz2..\n";
-
     for(int i=0;i<row;i++){
         for(int j=0;j<col;j++){
-
-
            std::cout<<m_matriz[i][j]<<" ";
         }
         std::cout<<std::endl;
@@ -223,7 +218,7 @@ void MainWindow::path(){
     foreach (QPoint p, m_path) {
         ui->listWidget->addItem(QString("Point(%1,%2)").arg(p.rx()).arg(p.ry()));
         myModel->item(p.rx(),p.ry())->setBackground(QColor(Qt::yellow));
-        //myModel->item(p.rx(),p.ry())->setText("(.)");
+
     }
     myModel->item(m_poinFinal.rx(),m_poinFinal.ry())->setBackground(QColor(Qt::red));
 }
