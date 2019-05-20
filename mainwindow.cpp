@@ -183,11 +183,12 @@ void MainWindow::path(){
     int dJ=m_poinFinal.ry();
     clearPath();
     while(true){
+        m_path.push_back(QPoint(dI,dJ));
         int valueActual = m_matriz[dI][dJ];
         if(valueActual== 0){
             break;
         }
-        m_path.push_back(QPoint(dI,dJ));
+
         if(dI>0){
             if(m_matriz[dI-1][dJ]<valueActual && m_matriz[dI-1][dJ]>=0){
                 dI=dI-1;
@@ -215,11 +216,36 @@ void MainWindow::path(){
             }
         }
     }
+    QPoint anterior=m_poinFinal;
     foreach (QPoint p, m_path) {
-        ui->listWidget->addItem(QString("Point(%1,%2)").arg(p.rx()).arg(p.ry()));
-        myModel->item(p.rx(),p.ry())->setBackground(QColor(Qt::yellow));
+        if(p != m_pointInicio){
+            ui->listWidget->addItem(QString("Point(%1,%2)").arg(p.rx()).arg(p.ry()));
+            myModel->item(p.rx(),p.ry())->setBackground(QColor(Qt::yellow));
+        }
+
+        QPoint r = p-anterior;
+
+        if(r.ry()==1){
+            myModel->item(anterior.rx(),anterior.ry())->setIcon(QIcon(":/imagenes/left.png"));
+        }
+        else if(r.ry()==-1){
+            myModel->item(anterior.rx(),anterior.ry())->setIcon(QIcon(":/imagenes/right.png"));
+
+        }else if(r.rx()==1){
+            myModel->item(anterior.rx(),anterior.ry())->setIcon(QIcon(":/imagenes/up.png"));
+
+        }else if (r.rx()==-1) {
+            myModel->item(anterior.rx(),anterior.ry())->setIcon(QIcon(":/imagenes/down.png"));
+
+        }
+
+
+
+
+        anterior=p;
 
     }
+    m_path.pop_back();
     myModel->item(m_poinFinal.rx(),m_poinFinal.ry())->setBackground(QColor(Qt::red));
 }
 
@@ -235,11 +261,12 @@ void MainWindow::clearPath()
         QString s= myModel->item(p.rx(),p.ry())->text();
         if(s=="-1"){
              myModel->item(p.rx(),p.ry())->setBackground(QColor(Qt::black));
+             myModel->item(p.rx(),p.ry())->setIcon(QIcon(""));
 
         }else{
 
             myModel->item(p.rx(),p.ry())->setBackground(QColor(Qt::transparent));
-             //myModel->item(p.rx(),p.ry())->setText("");
+            myModel->item(p.rx(),p.ry())->setIcon(QIcon(""));
         }
 
     }

@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>load.png</file>
+        <file>imagenes/down.png</file>
+        <file>imagenes/left.png</file>
+        <file>imagenes/right.png</file>
+        <file>imagenes/up.png</file>
     </qresource>
 </RCC>
